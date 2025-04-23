@@ -8,7 +8,7 @@
   <div style="display: flex; justify-content: space-between; align-items: center;">
     <h2>Drivers</h2>
     <div>
-      {% if user in car.drivers.all %}
+      {% if is_assigned %}
         <form
             method="post"
             action="{% url 'taxi:car-remove' car.pk %}"

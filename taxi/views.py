@@ -71,6 +71,16 @@ class CarListView(LoginRequiredMixin, generic.ListView):
 
 class CarDetailView(LoginRequiredMixin, generic.DetailView):
     model = Car
+    template_name = "taxi/car_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        car = context["car"]
+        is_assigned = False
+        if isinstance(self.request.user, Driver):
+            is_assigned = car.drivers.filter(pk=self.request.user.pk).exists()
+        context["is_assigned"] = is_assigned
+        return context
 
 
 class CarCreateView(LoginRequiredMixin, generic.CreateView):
