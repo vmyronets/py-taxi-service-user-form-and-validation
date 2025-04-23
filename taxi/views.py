@@ -15,6 +15,8 @@ from taxi.forms import (
 )
 from taxi.models import Driver, Car, Manufacturer
 
+from django.http import HttpResponseForbidden
+
 
 @login_required
 def index(request):
@@ -91,6 +93,9 @@ class CarDeleteView(LoginRequiredMixin, generic.DeleteView):
 class CarAssignView(LoginRequiredMixin, View):
     def post(self, request, pk):
         car = get_object_or_404(Car, pk=pk)
+        if not isinstance(request.user, Driver):
+            return HttpResponseForbidden(
+                "Only drivers can be assigned to cars")
         car.drivers.add(request.user)
         return redirect("taxi:car-detail", pk=pk)
 
@@ -98,6 +103,9 @@ class CarAssignView(LoginRequiredMixin, View):
 class CarRemoveView(LoginRequiredMixin, View):
     def post(self, request, pk):
         car = get_object_or_404(Car, pk=pk)
+        if not isinstance(request.user, Driver):
+            return HttpResponseForbidden(
+                "Only drivers can remove themselves from cars")
         car.drivers.remove(request.user)
         return redirect("taxi:car-detail", pk=pk)
 

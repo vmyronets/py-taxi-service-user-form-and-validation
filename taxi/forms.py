@@ -34,7 +34,7 @@ class DriverCreationForm(UserCreationForm, LicenseNumberFieldMixin):
         )
 
 
-class DriverLicenseUpdateForm(forms.ModelForm, LicenseNumberFieldMixin):
+class DriverLicenseUpdateForm(LicenseNumberFieldMixin, forms.ModelForm):
     class Meta:
         model = Driver
         fields = ("license_number",)
