@@ -42,7 +42,7 @@ class DriverLicenseUpdateForm(LicenseNumberFieldMixin, forms.ModelForm):
 
 class CarForm(forms.ModelForm):
     drivers = forms.ModelMultipleChoiceField(
-        queryset=DriverC.objects.all(),
+        queryset=Driver.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
